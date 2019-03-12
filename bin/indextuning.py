@@ -908,8 +908,11 @@ if indexDirCheckRes:
             for entry in deadHotDirs[line]:
                 thedir = entry + "/" + line
                 if args.deadIndexDelete and not line == "\\$_index_name":
-                    logger.info("Wiping directory %s" % (thedir))
-                    shutil.rmtree(thedir)
+                    if os.path.isdir(thedir):
+                        logger.info("Wiping directory %s" % (thedir))
+                        shutil.rmtree(thedir)
+                    else:
+                        logger.warn("Directory does not exist, no deletion required")
                 else:
                     logger.info(thedir)
     else:
